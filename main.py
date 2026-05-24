@@ -3,8 +3,8 @@ import requests
 import json
 import os
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+BOT_TOKEN = 8914099174:AAHBxQ83nv69cGJYSGCCPz7kvMUUoq5vGuc
+CHAT_ID = 1577852781
 
 NIFTY50 = [
     "RELIANCE.NS",

@@ -38,25 +38,59 @@ def send_telegram(message):
 # Dynamically fetch ONLY NIFTY 50 stocks
 def get_nifty50_stocks():
 
-    try:
+    return [
 
-        data = nse_get_index_quote("NIFTY 50")
-
-        stocks = []
-
-        for stock in data["data"]:
-
-            symbol = stock["symbol"]
-
-            stocks.append(symbol + ".NS")
-
-        return stocks
-
-    except Exception as e:
-
-        print(f"NSE fetch error: {e}")
-
-        return []
+        "ADANIENT.NS",
+        "ADANIPORTS.NS",
+        "APOLLOHOSP.NS",
+        "ASIANPAINT.NS",
+        "AXISBANK.NS",
+        "BAJAJ-AUTO.NS",
+        "BAJFINANCE.NS",
+        "BAJAJFINSV.NS",
+        "BEL.NS",
+        "BHARTIARTL.NS",
+        "CIPLA.NS",
+        "COALINDIA.NS",
+        "DRREDDY.NS",
+        "EICHERMOT.NS",
+        "ETERNAL.NS",
+        "GRASIM.NS",
+        "HCLTECH.NS",
+        "HDFCBANK.NS",
+        "HDFCLIFE.NS",
+        "HEROMOTOCO.NS",
+        "HINDALCO.NS",
+        "HINDUNILVR.NS",
+        "ICICIBANK.NS",
+        "INDUSINDBK.NS",
+        "INFY.NS",
+        "ITC.NS",
+        "JIOFIN.NS",
+        "JSWSTEEL.NS",
+        "KOTAKBANK.NS",
+        "LT.NS",
+        "M&M.NS",
+        "MARUTI.NS",
+        "NESTLEIND.NS",
+        "NTPC.NS",
+        "ONGC.NS",
+        "POWERGRID.NS",
+        "RELIANCE.NS",
+        "SBILIFE.NS",
+        "SBIN.NS",
+        "SHRIRAMFIN.NS",
+        "SUNPHARMA.NS",
+        "TATACONSUM.NS",
+        "TATAMOTORS.NS",
+        "TATASTEEL.NS",
+        "TCS.NS",
+        "TECHM.NS",
+        "TITAN.NS",
+        "TRENT.NS",
+        "ULTRACEMCO.NS",
+        "WIPRO.NS"
+    ]
 
 # Main logic
 stocks = get_nifty50_stocks()

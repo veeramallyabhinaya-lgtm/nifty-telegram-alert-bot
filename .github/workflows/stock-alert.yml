@@ -2,13 +2,18 @@ name: Nifty Stock Alert
 
 on:
   schedule:
+    # Every 5 minutes Monday-Friday
     - cron: '*/5 * * * 1-5'
 
   workflow_dispatch:
 
 jobs:
   run-alert:
+
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -17,6 +22,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: true
 
       - name: Setup Python
         uses: actions/setup-python@v6
@@ -25,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run bot
@@ -33,3 +40,14 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
         run: python main.py
+
+      - name: Commit updated alert state
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add alerted.json
+
+          git diff --cached --quiet || git commit -m "Update alerted state"
+
+          git push

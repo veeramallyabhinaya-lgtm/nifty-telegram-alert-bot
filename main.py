@@ -63,10 +63,10 @@ NIFTY50 = [
     "WIPRO.NS"
 ]
 
-# Alert thresholds
-THRESHOLDS = [20, 30, 40, 50]
+# Alert thresholds based on 52-week high drop
+THRESHOLDS = [15, 25, 35, 50]
 
-# Load previous alerts safely
+# Safe JSON loading
 try:
 
     if os.path.exists(ALERT_FILE):
@@ -109,7 +109,7 @@ def send_telegram(message):
 
         print(f"Telegram error: {e}")
 
-# Determine highest crossed threshold
+# Determine highest threshold crossed
 def get_threshold(drop_percent):
 
     crossed = 0
@@ -122,7 +122,7 @@ def get_threshold(drop_percent):
 
     return crossed
 
-print("Starting scan...")
+print("Starting NIFTY 50 scan...")
 
 for stock in NIFTY50:
 
@@ -132,7 +132,8 @@ for stock in NIFTY50:
 
         ticker = yf.Ticker(stock)
 
-        hist = ticker.history(period="max")
+        # LAST 1 YEAR DATA
+        hist = ticker.history(period="1y")
 
         if hist.empty:
 
@@ -140,11 +141,17 @@ for stock in NIFTY50:
 
             continue
 
-        ath = hist["High"].max()
+        # 52-WEEK HIGH
+        high_52_week = hist["High"].max()
 
+        # CURRENT PRICE
         current = hist["Close"].iloc[-1]
 
-        fall_percent = ((ath - current) / ath) * 100
+        # DROP FROM 52-WEEK HIGH
+        fall_percent = (
+            (high_52_week - current)
+            / high_52_week
+        ) * 100
 
         current_threshold = get_threshold(fall_percent)
 
@@ -161,14 +168,14 @@ for stock in NIFTY50:
         if current_threshold > previous_threshold:
 
             message = f"""
-🚨 NIFTY ATH ALERT 🚨
+🚨 NIFTY 50 ALERT 🚨
 
 Stock: {stock}
 
-ATH: ₹{ath:.2f}
+52W High: ₹{high_52_week:.2f}
 Current: ₹{current:.2f}
 
-Drop: {fall_percent:.2f}%
+Drop From 52W High: {fall_percent:.2f}%
 
 New Threshold Crossed: {current_threshold}%
 Previous Threshold: {previous_threshold}%
@@ -180,7 +187,7 @@ Previous Threshold: {previous_threshold}%
 
             print(f"Alert sent for {stock}")
 
-        # RESET IF RECOVERED BELOW 20%
+        # RESET IF STOCK RECOVERS
         elif current_threshold == 0 and previous_threshold != 0:
 
             alerted[stock] = 0
@@ -191,9 +198,9 @@ Previous Threshold: {previous_threshold}%
 
         print(f"Error with {stock}: {e}")
 
-# Save state
+# Save alert state
 with open(ALERT_FILE, "w") as f:
 
     json.dump(alerted, f)
 
-print("Scan completed.")
+print("NIFTY 50 scan completed.")

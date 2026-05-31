@@ -64,7 +64,58 @@ NIFTY50 = [
     "TITAN.NS",
     "TRENT.NS",
     "ULTRACEMCO.NS",
-    "WIPRO.NS"
+    "WIPRO.NS",
+
+    "ABB.NS",
+    "ABCAPITAL.NS",
+    "ABFRL.NS",
+    "ALKEM.NS",
+    "AMBUJACEM.NS",
+    "ASHOKLEY.NS",
+    "ASTRAL.NS",
+    "AUROPHARMA.NS",
+    "BANKBARODA.NS",
+    "BOSCHLTD.NS",
+    "BPCL.NS",
+    "BRITANNIA.NS",
+    "CANBK.NS",
+    "CGPOWER.NS",
+    "CHOLAFIN.NS",
+    "COLPAL.NS",
+    "CONCOR.NS",
+    "CUMMINSIND.NS",
+    "DABUR.NS",
+    "DLF.NS",
+    "DMART.NS",
+    "GAIL.NS",
+    "GODREJCP.NS",
+    "HAVELLS.NS",
+    "ICICIGI.NS",
+    "ICICIPRULI.NS",
+    "INDIGO.NS",
+    "INDUSTOWER.NS",
+    "IRCTC.NS",
+    "JINDALSTEL.NS",
+    "LICI.NS",
+    "LODHA.NS",
+    "LUPIN.NS",
+    "MARICO.NS",
+    "MOTHERSON.NS",
+    "NAUKRI.NS",
+    "NHPC.NS",
+    "OBEROIRLTY.NS",
+    "PAGEIND.NS",
+    "PATANJALI.NS",
+    "PEL.NS",
+    "PIDILITIND.NS",
+    "PNB.NS",
+    "RECLTD.NS",
+    "SAIL.NS",
+    "SIEMENS.NS",
+    "TORNTPHARM.NS",
+    "TVSMOTOR.NS",
+    "UNITDSPR.NS",
+    "VEDL.NS"
 ]
 
 # Alert thresholds based on 52-week high drop
@@ -178,7 +229,7 @@ for stock in NIFTY50:
         if current_threshold > previous_threshold:
 
             message = f"""
-🚨 NIFTY 50 ALERT 🚨
+🚨 NIFTY 100 ALERT 🚨
 
 Stock: {stock}
 

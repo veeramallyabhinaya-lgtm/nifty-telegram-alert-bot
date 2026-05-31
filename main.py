@@ -4,7 +4,11 @@ import json
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+CHAT_IDS = [
+    chat_id.strip()
+    for chat_id in os.getenv("CHAT_ID", "").split(",")
+    if chat_id.strip()
+]
 
 ALERT_FILE = "alerted.json"
 
@@ -90,26 +94,32 @@ def send_telegram(message):
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": message
-    }
+    for chat_id in CHAT_IDS:
 
-    try:
+        payload = {
+            "chat_id": chat_id,
+            "text": message
+        }
 
-        response = requests.post(
-            url,
-            data=payload,
-            timeout=10
-        )
+        try:
 
-        print(response.text)
+            response = requests.post(
+                url,
+                data=payload,
+                timeout=10
+            )
 
-    except Exception as e:
+            print(
+                f"Message sent to {chat_id}: "
+                f"{response.status_code}"
+            )
 
-        print(f"Telegram error: {e}")
+        except Exception as e:
 
-# Determine highest threshold crossed
+            print(
+                f"Telegram error for "
+                f"{chat_id}: {e}"
+            )# Determine highest threshold crossed
 def get_threshold(drop_percent):
 
     crossed = 0
